@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>DoS yourself in production every night to prove you can take it</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/night.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <link rel="stylesheet" href="../plugin/title-footer/title-footer.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? '../css/print/pdf.css' : '../css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <style type="text/css">
+    h1,h2,h3,h4,h5,h6 { text-transform: none !important; }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+<section>
+  <h1>DoS yourself in production every night to prove you can take it</h1>
+  <h2>@petemounce</h2>
+  <h3>@justeat_tech</h3>
+</section>
+
+<section>
+  <h2>Any questions?</h2>
+  <p>Shout them out as we go. That's more fun.</p>
+</section>
+
+<section>
+  <h2>Who are JUST EAT?</h2>
+
+  <aside class="notes">
+    <p>Started in DK 2001. UK 2005.  Now in ~15 countries.</p>
+    <p>Online takeaway - online sales channel for restaurant partners</p>
+    <p>We put their menus online; customers order through us, we forward orders to restaurants and charge a commission</p>
+    <p>I joined in Jan 2010. First day spent figuring out how we did on busiest day of the year. 7 people in tech</p>
+    <p>Now, 250 people in tech, 3 different tech hubs, AWS hosted, much higher scale.</p>
+  </aside>
+</section>
+
+<section>
+  <h2>Performance?</h2>
+
+  <aside class="notes">
+    <p>Around 70 searches a second at head of conversion funnel</p>
+    <p>Around 1000 orders a minute at conversion point</p>
+    <p>Around 25k restaurant partners in the UK</p>
+    <p>Several million customers in the UK</p>
+  </aside>
+</section>
+
+<section>
+  <h2>When do you suppose peak time is?</h2>
+  <p class="fragment">the same time we DoS ourselves, of course!</p>
+  <p>TODO: image of chart</p>
+</section>
+
+<section>
+  <h2>The problem with continuous delivery</h2>
+  <p class="fragment">Everyone wants to change everything, <strong>all the time</strong>.</p>
+
+  <aside class="notes">
+  </aside>
+</section>
+
+<section>
+  <h2>Bottleneck through a single environment</h2>
+
+  <aside class="notes">
+    <ul>
+      <li>No-one owns it, so it's out of date</li>
+      <li>Everyone wants it, so it's never available</li>
+      <li>Duplicating production costs too much, so it's never the same</li>
+    </ul>
+  </aside>
+</section>
+
+<section>
+  <h2>Individual tests take too long</h2>
+
+  <aside class="notes">
+    <ul>
+      <li>Soak for an hour at least</li>
+      <li>Stress tests</li>
+      <li>Boring boring boring</li>
+      <li>Context switches when failure happens in first 5m of 60m test</li>
+    </ul>
+  </aside>
+</section>
+
+<section>
+  <h2>But of course...</h2>
+
+  <aside class="notes">
+    <ul>
+      <li>don't slow down - don't block people from releasing</li>
+      <li>don't break it - no embarrassing performance regressions</li>
+    </ul>
+  </aside>
+</section>
+
+<section>
+  <h2>So, test all the time</h2>
+
+  <aside class="notes">
+    <p>Continuously run some load through</p>
+    <p>Leverage monitoring+alerting to prevent getting worse</p>
+    <p>...but this doesn't solve <q>works in my environment</q> because your environment isn't production</p>
+  </aside>
+</section>
+
+<section>
+  <h2>So, test in production</h2>
+
+  <blockquote class="fragment">Let's just do it in production with fake traffic at the same time as customers!</blockquote>
+
+  <blockquote class="fragment">We deploy 10s of small changes a day and we have alerts. I bet we won't break production (without noticing)</blockquote>
+
+  <aside class="notes">
+    <p>Customers are great load agents, and also generate far more chaos than our code does</p>
+  </aside>
+</section>
+
+<section>
+  <h2>Reasons why this isn't insane</h2>
+  <p class="fragment">Tight feedback loops</p>
+  <p><span class="fragment">Engineers support what they ship... </span><span class="fragment">and so are <strong>highly</strong> invested in not regressing non-functionals.</span></p>
+
+  <aside class="notes">
+    <p>Teams are cross-functional and full-stack</p>
+    <p>Engineers own their own code and operations thereof</p>
+    <p>Platform has near real-time monitoring &amp; alerting</p>
+    <p>Centralised logs for <q>why</q>-TF</p>
+    <p>Engineers get paged while on call</p>
+    <p>Engineers can turn off fake load easily</p>
+    <p>Engineers can rollback quickly and easily</p>
+  </aside>
+</section>
+
+<section>
+  <h2>How do we do this?</h2>
+  <section>
+    <h3>Pick scenarios we care about</h3>
+    <aside class="notes">
+      <p><q>Customer must be able to buy food</q></p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Pick data variations</h3>
+
+    <aside class="notes">
+      <p>Initially, one fake user can use one fake restaurant... a LOT. But not buy anything</p>
+      <p>Later, tens of thousands of fake load users</p>
+      <p>Later, they can pay by cash</p>
+      <p>Later, lots more fake load restaurants</p>
+      <p>Later, they can pay online</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Choose a load agent</h3>
+
+    <aside class="notes">
+      <p>We chose jmeter. It's free and has a reasonable UI.</p>
+      <p>Arbitrary choice. Could have used gatling, tsung, grinder, various commercial ones.</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Gain confidence outside of peak time</h3>
+    <p class="fragment">This part is also about reassuring stakeholders that you've got it all under control...</p>
+
+    <aside class="notes">
+      <p>Start early in the working day. Everyone's in the office</p>
+      <p>Graduate to later, when real traffic starts</p>
+      <p>Figure out what alert coverage around resource metrics is missing and add it &mdash; this is safety net level</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Make the computer do it every day</h3>
+
+    <aside class="notes">
+      <p></p>
+    </aside>
+  </section>
+
+  <section>
+    <h3></h3>
+
+    <aside class="notes">
+      <p></p>
+    </aside>
+  </section>
+
+  <section>
+    <h3></h3>
+
+    <aside class="notes">
+      <p></p>
+    </aside>
+  </section>
+
+  <section>
+    <h3></h3>
+
+    <aside class="notes">
+      <p></p>
+    </aside>
+  </section>
+
+  <section>
+    <h3></h3>
+
+    <aside class="notes">
+      <p></p>
+    </aside>
+  </section>
+</section>
+
+<section>
+  <h2>What did we gain?</h2>
+
+  <section>
+    <h3>Peace of mind, #1</h3>
+    <p>Continuous, early, warning about:</p>
+    <ul>
+      <li class="fragment">getting slower</li>
+      <li class="fragment">running out of capacity</li>
+    </ul>
+
+    <aside class="notes">
+      <p>Basically, we want to aim for</p>
+      <p>Get no worse without noticing</p>
+      <p>Know on Thursday whether we're good for Saturday night</p>
+      <p>Maintain acceptable head-room for projected 6 months of growth</p>
+      <p>But we're in the cloud?  It's not <em>our</em> cloud...</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Peace of mind, #2</h3>
+    <p>Good, simple, clear operational response to most surprises:</p>
+    <blockquote class="fragment">
+      <p>Is fake load running? Stop it.</p>
+      <p>Scale up</p>
+      <p>Now, start to think</p>
+    </blockquote>
+
+    <aside class="notes">
+      <p>Great for dealing with unexpected spikes, like if a large competitor goes down</p>
+      <p>Immediately, less stress on the platform</p>
+      <p>Buy time to think</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Peace of mind, #3</h3>
+    <p>If we find a problem Thursday night:</p>
+    <ol>
+      <li>Turn off fake load for the weekend</li>
+      <li>Enjoy weekend</li>
+      <li>Fix it next week with less pressure</li>
+    </ol>
+
+    <aside class="notes">
+      <p>Be respectful to the personal time of our engineers</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Performance &amp; operability == 1st class concern</h3>
+
+    <aside class="notes">
+      <p>No engineer wants their personal time interrupted</p>
+      <p>Ready for production != ready for customers</p>
+      <p>Stimulates performance profiling &amp; telemetry being done/added before release</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Alerts become automated tests in production</h3>
+
+    <aside class="notes">
+      <p>Promote the idea of performance budgets</p>
+      <p>Makes the <q>we need to do some optimisation work</q> conversation with product management data-driven &mdash; and therefore shorter</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3><code>git push production</code> is one step closer</h3>
+    <p>Continuous testing in production can be applied to more than just performance &amp; capacity</p>
+
+    <aside class="notes">
+      <p>We've now got extension points in platform to differentiate fake load from real load.</p>
+      <p>Use this for one-level-deep integration testing via stubbing responses</p>
+      <p>Decouple from depending on data setup/teardown, or presence within an environment</p>
+      <p>This, combined with traffic-routing, means even fewer reasons to need separate pre-production environment</p>
+      <p>This <em>also</em> also means on-boarding new people is faster, because first checkout to first commit is simpler</p>
+    </aside>
+  </section>
+
+</section>
+
+<section>
+  <h2>Online takeaway. Harder than you might think</h2>
+  <p>We've got many open spots for talented engineers, if you're interested.</p>
+  <p><a href="http://tech.just-eat.com/jobs">tech.just-eat.com/jobs</a></p>
+  <p>Get in touch - <a href="mailto:peter.mounce@just-eat.com">peter.mounce@just-eat.com</a></p>
+</section>
+
+      </div>
+
+    </div>
+
+    <script src="../lib/js/head.min.js"></script>
+    <script src="../js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../plugin/zoom-js/zoom.js', async: true },
+          { src: '../plugin/notes/notes.js', async: true },
+          { src: '../plugin/title-footer/title-footer.js',
+            async: true,
+            callback: function() {
+              title_footer.initialize("@petemounce + @justeat_tech");
+            }
+          }
+        ]
+      });
+
+      Reveal.configure({
+        slideNumber: 'c / t'
+      });
+
+    </script>
+
+  </body>
+</html>
