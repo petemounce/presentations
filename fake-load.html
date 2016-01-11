@@ -170,23 +170,13 @@
 </section>
 
 <section>
-  <h2>How do we do this?</h2>
+  <h2>How did we start doing this?</h2>
+  <p>Technology aspects and people aspects</p>
   <section>
-    <h3>Pick scenarios we care about</h3>
+    <h3>Choose scenarios we care about</h3>
     <aside class="notes">
       <p><q>Customer must be able to buy food</q></p>
-    </aside>
-  </section>
-
-  <section>
-    <h3>Pick data variations</h3>
-
-    <aside class="notes">
-      <p>Initially, one fake user can use one fake restaurant... a LOT. But not buy anything</p>
-      <p>Later, tens of thousands of fake load users</p>
-      <p>Later, they can pay by cash</p>
-      <p>Later, lots more fake load restaurants</p>
-      <p>Later, they can pay online</p>
+      <p>Who has functional test coverage for these? Maybe reuse that to start with, but with data that is present in production.</p>
     </aside>
   </section>
 
@@ -194,14 +184,14 @@
     <h3>Choose a load agent</h3>
 
     <aside class="notes">
-      <p>We chose jmeter. It's free and has a reasonable UI.</p>
+      <p>We chose jmeter. It's free, has a reasonable UI, and is friendly toward automating (provisioning onto machines, running, reporting).</p>
       <p>Arbitrary choice. Could have used gatling, tsung, grinder, various commercial ones.</p>
     </aside>
   </section>
 
   <section>
     <h3>Gain confidence outside of peak time</h3>
-    <p class="fragment">This part is also about reassuring stakeholders that you've got it all under control...</p>
+    <p class="fragment">(This part is also about reassuring stakeholders that you've got it all under control...)</p>
 
     <aside class="notes">
       <p>Start early in the working day. Everyone's in the office</p>
@@ -211,42 +201,128 @@
   </section>
 
   <section>
+    <h3>Start adding data variety</h3>
+
+    <aside class="notes">
+      <p>Initially, one fake user can use one fake restaurant... a LOT. But not buy anything</p>
+      <p>Later, tens of thousands of fake load users</p>
+      <p>Later, they can pay by cash</p>
+      <p>Later, lots more fake load restaurants</p>
+    </aside>
+  </section>
+
+  <section>
     <h3>Make the computer do it every day</h3>
+    <p class="fragment">This is the most vital part!</p>
 
     <aside class="notes">
-      <p></p>
+      <p>Keep yourself honest</p>
+      <p>If you have
     </aside>
   </section>
 
   <section>
-    <h3></h3>
+    <h3>Get more elaborate later</h3>
+    <p>Fake away external dependencies</p>
+    <code>x-traffic-flavour: fake</code>
 
     <aside class="notes">
-      <p></p>
+      <p>Business model best when payment takes place via online</p>
+      <p>Therefore, coverage for payment processing really important</p>
+      <p>But our payment processors did not want to be load-tested...</p>
+      <p>Redirect the payment request to a test harness, running in production</p>
     </aside>
   </section>
 
   <section>
-    <h3></h3>
+    <h3>And even more elaborate...</h3>
+    <p>Fake away more complicated things</p>
 
     <aside class="notes">
-      <p></p>
+      <p>... like restaurants</p>
+      <p>They don't want to be given fake orders</p>
+      <p>Redirect fake orders to box emulator rather than real box in restaurant</p>
+    </aside>
+  </section>
+</section>
+
+<section>
+  <h2>How have we <em>kept</em> doing this?</h2>
+  <p>... and what did we learn to do better</p>
+
+  <section>
+    <h3>Don't allow tests to be red (for long)</h3>
+
+    <aside class="notes">
+      <p>We get failures</p>
+      <p>We turn off fake load</p>
+      <p>We <strong>fix the problem</strong></p>
+      <p>We <strong>re-enable</strong> the tests</p>
+      <p>Like any tests that fail, right?</p>
     </aside>
   </section>
 
   <section>
-    <h3></h3>
+    <h3>Need to tune levels over time</h3>
 
     <aside class="notes">
-      <p></p>
+      <p>We need to revisit the load that we add over time</p>
+      <p>Otherwise the safety net diminishes over time</p>
     </aside>
   </section>
 
   <section>
-    <h3></h3>
+    <h3>Embrace the fact that things break</h3>
 
     <aside class="notes">
-      <p></p>
+      <p>... because you have bought yourself time to fix them!</p>
+    </aside>
+  </section>
+</section>
+
+<section>
+  <h2>What battle scars did we get... lately?</h2>
+  <p>All of these would have hurt <em>badly</em> if we hadn't had the ability to turn the pain off <strong>ourselves</strong></p>
+
+  <section>
+    <h3>Find unbounded result sets before customers</h3>
+
+    <aside class="notes">
+      <p>At no point did we delete fake orders</p>
+      <p>10k users creating several orders a minute for a month == many orders</p>
+      <p>When you add <q>get order history</q> feature later, you realise you can't ship without paging</p>
+      <p>You now have a robust paging implementation you can put everywhere else</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Monitoring needs to be solid!</h3>
+
+    <aside class="notes">
+      <p>More instances to process more load == more metrics being pushed to monitoring</p>
+      <p>Exposes capacity of monitoring services - ahead of hitting it <q>for real</q></p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Realise AWS account limits are closer than we thought</h3>
+
+    <aside class="notes">
+      <p>Scale up for Christmas would not have worked if we'd tried for real load</p>
+      <p>Because we did it in advance, it was a non-issue</p>
+    </aside>
+  </section>
+
+  <section>
+    <h3>Realise we're not as smart as we think</h3>
+    <p class="fragment">TODO: DOH picture</p>
+
+    <aside class="notes">
+      <p>one scenario created a user with the same email address each time</p>
+      <p>Platform allows non-unique email addresses</p>
+      <p>Didn't notice. 350k users created.</p>
+      <p>SQL Server recompiled query plan to use table scan to log users in, instead of index, since 5% of users were... this user</p>
+      <p>40 minutes of downtime before peak.</p>
     </aside>
   </section>
 </section>

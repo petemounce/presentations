@@ -1,31 +1,24 @@
 how you capture user traffic
-how you got management buy-in
 
+## how you got management buy-in
+* dip toes early in the day
+* add alerts that are missing around resource metrics
+* graduate to later in the day, towards peak time
+* schedule it as a recurring, daily job during peak time
 
+## the changes made to facilitate this
+## the impact and your learnings
 
-
-the changes made to facilitate this
-the impact and your learnings
-
-
-
-
-
-
-
-only works with 
+only works with
 * good monitoring and alerting - and people reacting
 * culture that understands sometimes it's necessary to optimise compared to add features
 
-how to arrive at the level of load to run?
+## how to arrive at the level of load to run?
 
-how to decide where the mocks should go?
+## how to decide where the mocks should go?
 PSP emulator
 JCT emulator + JustSaying
 -> distributed system must maintain and propagate request context throughout
-
-
-
 
 ## what problems did we have?
 test data accrues unless you delete it
@@ -40,6 +33,8 @@ unbounded result sets - paging order history for fake load users
 resilience & capacity of our monitoring sservices needed enhancement
 scaling up for Christmas would have failed - we hit AWS Account limits that we needed to get lifted
 
-
+screenshots
+fake load vs real load, orders, no numbers
+one week's worth of load
 
 
