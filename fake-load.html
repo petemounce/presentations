@@ -89,6 +89,10 @@
     <p>The same time we DoS ourselves, of course!</p>
     <img src="fake-load/fake-vs-real-load.png" alt="fake vs real load"/>
   </div>
+
+  <aside class="notes">
+  <p>Chart is taken from 14 December. We're running around 1200 orders per minute extra on top of real load. Ish.</p>
+  </aside>
 </section>
 
 <section>
@@ -108,17 +112,21 @@
   <p class="fragment">Everyone wants to change everything, <strong>all the time</strong>.</p>
 
   <aside class="notes">
+    <p>In 2010, we did maybe 30 deployments</p>
+    <p>In 2014, we did more than 800</p>
+    <p>We stopped really counting that in 2015</p>
   </aside>
 </section>
 
 <section>
-  <h2>Traditionally, bottleneck through a single performance-testing environment</h2>
-
+  <h2>Traditional approach</h2>
+  <blockquote>Let's make an environment like production and run load through that.</blockquote>
   <aside class="notes">
     <ul>
       <li>No-one owns it, so it's out of date</li>
       <li>Everyone wants it, so it's never available</li>
       <li>Duplicating production costs too much, so it's never the same</li>
+      <li>Cost is an issue - this environment isn't in use all the time, but the hardware is bought.</li>
     </ul>
   </aside>
 </section>
