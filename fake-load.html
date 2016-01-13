@@ -56,6 +56,10 @@
 <section>
   <h2>Any questions?</h2>
   <p>Shout them out as we go. That's more fun.</p>
+
+  <aside class="notes">
+    <p>This is a talk about automatically running fake load every night against our production environment.</p>
+  </aside>
 </section>
 
 <section>
@@ -201,6 +205,12 @@
   <section>
     <h3>Have the idea to start</h3>
     <p><a href="http://eranki.tumblr.com/post/27076431887/scaling-lessons-learned-at-dropbox-part-1" target="_blank">We didn't invent this.</a></p>
+
+    <aside class="notes">
+      <p>DoE found it.</p>
+      <p>CTO liked the idea</p>
+      <p>Actually took most effort to get the engineers to buy into it, rather than management</p>
+    </aside>
   </section>
 
   <section>
@@ -228,7 +238,9 @@
       <p>Start early in the working day. Everyone's in the office</p>
       <p>Graduate to later, when real traffic starts</p>
       <p>Figure out what alert coverage around resource metrics is missing and add it &mdash; this is safety net level</p>
-      <p>Aside:
+      <p>Aside:</p>
+      <p>It's generally better to measure people, not computers.</p>
+      <p>So raise the level of abstraction for your alerting - logins/registrations per sec, etc, rather than disk I/O / CPU</p>
     </aside>
   </section>
 
@@ -252,7 +264,7 @@
 
     <aside class="notes">
       <p>Keep yourself honest</p>
-      <p>If you have
+      <p>If you have problems, fix them, don't ignore them.</p>
     </aside>
   </section>
 
@@ -328,6 +340,11 @@
   <h2>What battle scars did we get... lately?</h2>
   <p>All of these would have hurt <em>badly</em> if we hadn't had the ability to turn the pain off <strong>ourselves</strong></p>
 
+  <aside class="notes">
+    <p>Slipped a bit in the run-up to Christmas 2015</p>
+    <p>Large effort to make sure we were ready for expected load.</p>
+    <p>We made lots of improvements!</p>
+  </aside>
 </section>
 
   <section>
@@ -351,7 +368,7 @@
   </section>
 
   <section>
-    <h3>Realise AWS account limits are closer than we thought</h3>
+    <h3>Realise AWS account limits are closer than we thought...</h3>
     <div class="fragment">
       <img src="fake-load/cloud-is-someone-elses-computer.png" />
       <p style="font-size: 40%; text-align: right">Credit: StickerMule.com</p>
@@ -370,7 +387,7 @@
   </section>
 
   <section>
-    <h3>Realise our haproxy was badly misconfigured</h3>
+    <h3>Realise haproxy should balance, not magnify load...</h3>
 
     <aside class="notes">
       <p>We run multi-AZ within one region</p>
@@ -380,7 +397,7 @@
   </section>
 
   <section>
-    <h3>Realise we're not as smart as we think</h3>
+    <h3>Realise we're not as smart as we think...</h3>
     <div class="fragment">
       <img src="fake-load/unique-usernames-oops.png" alt="embracing failure" />
     </div>
@@ -393,6 +410,11 @@
       <p>40 minutes of downtime before peak.</p>
       <p>Irony - having to leave a conference about operations early because of a problem in production</p>
     </aside>
+  </section>
+
+  <section>
+    <h3>But...</h3>
+    <p>Discovered problems during peacetime, not peak time</p>
   </section>
 
 
@@ -416,11 +438,6 @@
       <p>Maintain acceptable head-room for projected 6 months of growth</p>
       <p>But we're in the cloud?  It's not <em>our</em> cloud...</p>
     </aside>
-  </section>
-
-  <section>
-    <h3>Discovered problems during peacetime not peak time</h3>
-
   </section>
 
   <section>
