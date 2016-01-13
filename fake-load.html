@@ -86,7 +86,7 @@
 <section>
   <h2>When do you suppose peak time is?</h2>
   <div class="fragment">
-    <p>the same time we DoS ourselves, of course!</p>
+    <p>The same time we DoS ourselves, of course!</p>
     <img src="fake-load/fake-vs-real-load.png" alt="fake vs real load"/>
   </div>
 </section>
@@ -141,8 +141,8 @@
 
   <aside class="notes">
     <ul>
-      <li>don't slow down - don't block people from releasing</li>
-      <li>don't break it - no embarrassing performance regressions</li>
+      <li>Don't slow down - don't block people from releasing</li>
+      <li>Don't break it - no embarrassing performance regressions</li>
     </ul>
   </aside>
 </section>
@@ -334,10 +334,20 @@
 
   <section>
     <h3>Realise AWS account limits are closer than we thought</h3>
+    <div class="fragment">
+      <img src="fake-load/cloud-is-someone-elses-computer.png" />
+      <p style="font-size: 40%; text-align: right">Credit: StickerMule.com</p>
+    </div>
 
     <aside class="notes">
       <p>Scale up for Christmas would not have worked if we'd tried for real load</p>
+      <p>Maxed out</p>
+      <ul>
+        <li>particular instance sizes</li>
+        <li>DynamoDB throughput across our whole production account</li>
+      </ul>
       <p>Because we did it in advance, it was a non-issue</p>
+      <p>We now wrap automated alerts around account limits via AWS Trusted Advisor &amp; CloudWatch</p>
     </aside>
   </section>
 
@@ -358,7 +368,7 @@
     </div>
 
     <aside class="notes">
-      <p>one scenario created a user with the same email address each time</p>
+      <p>One scenario created a user with the same email address each time</p>
       <p>Platform allows non-unique email addresses</p>
       <p>Didn't notice. 350k users created.</p>
       <p>SQL Server recompiled query plan to use table scan to log users in, instead of index, since 5% of users were... this user</p>
@@ -377,8 +387,8 @@
     <h3>Peace of mind, #1</h3>
     <p>Continuous, early, warning about:</p>
     <ul>
-      <li class="fragment">getting slower</li>
-      <li class="fragment">running out of capacity</li>
+      <li class="fragment">Getting slower</li>
+      <li class="fragment">Running out of capacity</li>
     </ul>
 
     <aside class="notes">
