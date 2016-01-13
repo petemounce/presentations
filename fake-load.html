@@ -78,13 +78,29 @@
     <p>Around 1000 orders a minute at conversion point</p>
     <p>Around 25k restaurant partners in the UK</p>
     <p>Several million customers in the UK</p>
+    <p>By contrast, 6 years ago we fell over on busiest day of the year trying to cope with 2-3 orders per minute in one country.</p>
+    <p>... for 3 years running</p>
   </aside>
 </section>
 
 <section>
   <h2>When do you suppose peak time is?</h2>
-  <p class="fragment">the same time we DoS ourselves, of course!</p>
-  <p>TODO: image of chart</p>
+  <div class="fragment">
+    <p>the same time we DoS ourselves, of course!</p>
+    <img src="fake-load/fake-vs-real-load.png" alt="fake vs real load"/>
+  </div>
+</section>
+
+<section>
+  <h2>We have cyclic demand</h2>
+
+  <aside class="notes">
+    <p>Daily peak time 5-9pm</p>
+    <p>Weekly peak time Fri/Sat</p>
+    <p>Monthly peak is payday weekend</p>
+    <p>Winter is busier than summer - rain makes people buy takeout</p>
+    <p>Busiest day is Valentine's Day in the UK...</p>
+  </aside>
 </section>
 
 <section>
@@ -173,6 +189,12 @@
   <h2>How did we start doing this?</h2>
   <p>Technology aspects and people aspects</p>
 </section>
+
+  <section>
+    <h3>Have the idea to start</h3>
+    <p><a href="http://eranki.tumblr.com/post/27076431887/scaling-lessons-learned-at-dropbox-part-1" target="_blank">We didn't invent this.</a></p>
+  </section>
+
   <section>
     <h3>Choose scenarios we care about</h3>
     <aside class="notes">
@@ -198,6 +220,7 @@
       <p>Start early in the working day. Everyone's in the office</p>
       <p>Graduate to later, when real traffic starts</p>
       <p>Figure out what alert coverage around resource metrics is missing and add it &mdash; this is safety net level</p>
+      <p>Aside:
     </aside>
   </section>
 
@@ -327,7 +350,6 @@
 
   <section>
     <h3>Realise we're not as smart as we think</h3>
-    <p class="fragment">TODO: DOH picture</p>
 
     <aside class="notes">
       <p>one scenario created a user with the same email address each time</p>
@@ -335,13 +357,13 @@
       <p>Didn't notice. 350k users created.</p>
       <p>SQL Server recompiled query plan to use table scan to log users in, instead of index, since 5% of users were... this user</p>
       <p>40 minutes of downtime before peak.</p>
+      <p>Irony - having to leave a conference about operations early because of a problem in production</p>
     </aside>
   </section>
 
 
 <section>
   <h2>What did we gain?</h2>
-
 
 </section>
 
