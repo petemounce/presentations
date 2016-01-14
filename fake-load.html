@@ -172,10 +172,14 @@
 <section>
   <h2>So, test in production</h2>
 
-  <blockquote class="fragment">Let's just do it in production with fake traffic at the same time as customers!</blockquote>
-
-  <blockquote class="fragment">We deploy 10s of small changes a day and we have alerts. I bet we won't break production (without noticing)</blockquote>
-
+  <div class="fragment">
+    <blockquote>We deploy 10s of small changes a day and we have alerts. I bet we won't break production (without noticing)</blockquote>
+    <p>#YOLO!</p>
+  </div>
+  <div class="fragment">
+    <blockquote>Let's just do it in production with fake traffic at the same time as customers!</blockquote>
+    <p>#WhatCouldPossiblyGoWrong?</p>
+  </div>
   <aside class="notes">
     <p>Customers are great load agents, and also generate far more chaos than our code does</p>
   </aside>
@@ -183,10 +187,10 @@
 
 <section>
   <h2>Reasons why this isn't insane</h2>
-  <p class="fragment">Tight feedback loops</p>
-  <p><span class="fragment">Engineers support what they ship... </span><span class="fragment">and so are <strong>highly</strong> invested in not regressing non-functionals.</span></p>
 
   <aside class="notes">
+    <p>Tight feedback loops</p>
+    <p>Engineers support what they ship... and so are <strong>highly</strong> invested in not regressing non-functionals.</p>
     <p>Teams are cross-functional and full-stack</p>
     <p>Engineers own their own code and operations thereof</p>
     <p>Platform has near real-time monitoring &amp; alerting</p>
@@ -232,7 +236,7 @@
 
   <section>
     <h3>Gain confidence outside of peak time</h3>
-    <p class="fragment">(This part is also about reassuring stakeholders that you've got it all under control...)</p>
+    <p>(This part is also about reassuring stakeholders that you've got it all under control...)</p>
 
     <aside class="notes">
       <p>Start early in the working day. Everyone's in the office</p>
