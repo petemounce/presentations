@@ -13,8 +13,7 @@
 
 var title_footer=
 {
-  title: '',
-  background:'rgba(0,0,0,0.1)',
+  title: ''
 };
 
 /* Function to obtain all child elements with any of the indicated tags (from http://www.quirksmode.org/dom/getElementsByTagNames.html) */
@@ -63,7 +62,7 @@ title_footer.getElementsByTagNames=function(list,obj)
 
 /* Method to initialize the Title-Footer footer */
 
-title_footer.initialize=function(title,background)
+title_footer.initialize=function(title)
 {
 
   // Link to the Title-Footer CSS
@@ -76,7 +75,6 @@ title_footer.initialize=function(title,background)
 
   // Initialize properties according to parameters
 
-  this.background=background || 'rgba(0,0,0,0.1)';
   var title=title || '';
   if (title!='')
   {
@@ -104,7 +102,6 @@ title_footer.initialize=function(title,background)
 
   var title_footer=document.createElement('footer');
   title_footer.setAttribute('id','title-footer');
-  title_footer.setAttribute('style','background:'+this.background);
   var title_footer_p=document.createElement('p');
   title_footer.appendChild(title_footer_p);
   var a_element=document.createElement('a');
