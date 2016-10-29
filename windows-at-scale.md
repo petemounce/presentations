@@ -209,6 +209,6 @@ Notes:
 
 @petemounce on [twitter](https://twitter.com/petemounce) / [github](https://github.com/petemounce)
 
-[Slides on github](https://github.com/petemounce/presentations)
+[Slides: https://petemounce.github.io/presentations/windows-at-scale.html](https://petemounce.github.io/presentations/windows-at-scale.html)
 
 Notes:
