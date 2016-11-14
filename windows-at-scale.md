@@ -1,4 +1,9 @@
-# Windows at scale
+<!-- .slide: data-background-image="windows-at-scale/eastwindow.jpg" data-background-size="cover" -->
+
+# Windows at scale <!-- .element: style="color: #000 " -->
+
+
+
 
 ^^
 <!-- .slide: class="shell" -->
@@ -46,7 +51,7 @@ Notes:
 * ran several hundred AWS instances in one country of 14 or so.
 * 70searches/sec at mouth of funnel
 * 1.2k orders per minute at peak time. Fake load another 600/min.
-* Scheduled scaling - crude. 
+* Scheduled scaling, not reactive - crude but effective (3+ years) 
 * Losing an instance was not an interesting event (except when maybe I did it too much on stage).
 
 
@@ -70,6 +75,7 @@ Notes:
 * Deployment automation should be "table stakes"
 * Golden images are a solved problem; build scripts for servers
 * It should not be an event when a server dies
+* Apply this to your pipeline infrastructure as well as production
 
 
 ^^
@@ -81,6 +87,7 @@ At JUST EAT, we tried all of them. <!-- .element: class="fragment" -->
 
 Notes:
 * 2010: Created contract for a package produced by build automation. Remains today, largely unchanged.
+  * This illustrates the long-term benefit of contracts between systems
 * 2011: Remote execution of ruby+rake with ssh in QA environments, still manual to production
 * 2012: Bespoke windows service triggered by bespoke deployment API via winrm
 * 2013: AWS + S3 + Seppuku
@@ -110,6 +117,8 @@ Notes:
 * 2016+ - deployment cycle time ~2min (update-in-place)
 
 But, don't forget the bit of the pipeline before production.
+* 2010-2016 - build agents were hand crafted. Still cattle, but unowned. New dependencies were hard.
+* 2016 - applied build scripts for TeamCity agent images
 
 
 ^^
@@ -118,23 +127,28 @@ But, don't forget the bit of the pipeline before production.
 Notes:
 Infrastructure automation is necessary if you want to not lose time debugging environments and third party software
 
-At JE, we spun up QA environments each morning and tore them down every evening. Blessing, because it proved we could do it. Curse, because we didn't have good enough test coverage to avoid breaking the world if a mistake was merged. Just like any other software.
+At JE, we spun up QA environments each morning and tore them down every evening. 
+* Blessing, because it proved we could do it. 
+* Curse, because we didn't have good enough test coverage to avoid breaking the world if a mistake was merged. Just like any other software.
 
 
 ^^
 ## Application coupling
 
+Contract before code!
+
 Notes:
-http applications declare and embed their contracts via Swagger.
+http applications declare and embed their contracts via Swagger (now OpenAPI specification).
 
 Increasingly, applications would follow the unified log pattern for integration.
-React to input by publishing events.
-Other applications, independently, subscribe to those events and do interesting things.
+* React to input by publishing events.
+* Other applications, independently, subscribe to those events and do interesting things.
+
 Leads to strong input/output contracts for applications, which leads to looser coupled applications that are much easier to operate and test.
 
 
 ^^
-## Monitoring and alerting doesn't have a safe easy option so far
+## No no-brainer choice for monitoring and alerting so far
 
 Notes:
 At JE, statsd + graphite + seyren
