@@ -1,6 +1,6 @@
 <!-- .slide: data-background-image="windows-at-scale/eastwindow.jpg" data-background-size="cover" -->
 
-# Windows at scale <!-- .element: style="color: #000 " -->
+# Windows at scale <!-- .element: class="over_transparent" -->
 
 
 
